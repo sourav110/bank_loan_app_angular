@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { Component, inject, OnInit } from '@angular/core';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -7,10 +7,34 @@ import { RouterLink, RouterOutlet } from '@angular/router';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'bank_loan_app';
 
-  onLogout() {
+  bankAppUser: any;
+  router = inject(Router);
+
+  constructor() {
     
+  }
+
+  ngOnInit(): void {
+    debugger
+    const loginUser = sessionStorage.getItem("bankAppUser");
+    if (loginUser != null) {
+      this.bankAppUser = JSON.parse(loginUser);
+      debugger
+      if (this.bankAppUser.role == "Customer") {
+        this.router.navigateByUrl("loan-application-list");
+      } else {
+        this.router.navigateByUrl("customer-list");
+      }
+    }
+  }
+
+
+  onLogout() {
+    debugger
+    sessionStorage.removeItem("bankAppUser");
+    this.router.navigateByUrl("login");
   }
 }
