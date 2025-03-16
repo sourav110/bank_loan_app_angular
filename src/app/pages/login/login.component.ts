@@ -44,10 +44,9 @@ export class LoginComponent {
       } else {
         alert("Invalid Credentials");
       }
-
     })
   }
-
+  
 }
 
 export class LoginUser {
